@@ -2,6 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Api\Abstracts\AbstractApiException;
+use App\Exceptions\Api\AccessDeniedException;
+use App\Exceptions\Api\InternalException;
+use App\Exceptions\Api\NotFoundException;
+use App\Exceptions\Api\UnauthorizedException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -13,7 +18,9 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        NotFoundException::class,
+        AccessDeniedException::class,
+        UnauthorizedException::class
     ];
 
     /**
@@ -35,7 +42,24 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            # Здесь представим, что подключение к какому-нибудь GrayLog
         });
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function render($request, Throwable $e)
+    {
+        if (!$request->wantsJson()) {
+            return parent::render($request, $e);
+        }
+
+        $exception = $e;
+        if (!($e instanceof AbstractApiException)) {
+            $exception = new InternalException();
+        }
+
+        return $exception->getResponse();
     }
 }
