@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Services\Contracts\ITaskService;
+use App\Repositories\Contracts\ITaskRepository;
+use App\Repositories\TaskRepository;
+use App\Services\TaskService;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +18,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        # Сервисы
+        $this->app->bind(ITaskService::class, TaskService::class);
+
+        # Репозитории
+        $this->app->bind(ITaskRepository::class, TaskRepository::class);
     }
 
     /**
@@ -23,6 +32,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        JsonResource::withoutWrapping();
     }
 }
