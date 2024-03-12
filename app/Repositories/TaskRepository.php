@@ -17,11 +17,11 @@ class TaskRepository implements ITaskRepository
 
     public function list(array $filterList): LengthAwarePaginator
     {
-        return (new TaskFilter())->filter(Task::query(), $filterList)->paginate(
+        return Task::filter(new TaskFilter(), $filterList)->paginate(
             $filterList[TaskFilter::LIMIT] ?? null,
             $filterList['columns'] ?? ['*'],
             TaskFilter::PAGE,
-                $filterList[TaskFilter::PAGE] ?? null
+            $filterList[TaskFilter::PAGE] ?? null
         );
     }
 

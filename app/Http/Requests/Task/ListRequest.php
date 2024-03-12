@@ -24,7 +24,7 @@ class ListRequest extends AbstractApiRequest
     public function rules()
     {
         return [
-            'title' => 'string|min:4|max:256',
+            'title' => 'string',
             'updated' => 'in:asc,desc',
             'status' => 'in:create,await,processed,done',
             'created' => 'in:asc,desc',
@@ -38,8 +38,6 @@ class ListRequest extends AbstractApiRequest
     {
         return [
             'title.string' => __('Поле должно быть текстового формата'),
-            'title.min' => __('Слишком короткое название'),
-            'title.max' => __('Слишком длинное название'),
 
             'updated.in' => __('Поле должно быть asc или desc значения'),
             'created.in' => __('Поле должно быть asc или desc значения'),
