@@ -6,5 +6,5 @@ use \Illuminate\Database\Eloquent\Builder;
 
 interface IQueryFilter
 {
-    public function filter(Builder $query, array $filter_data): Builder;
+    public function filter(Builder $query, array $filterData): Builder;
 }

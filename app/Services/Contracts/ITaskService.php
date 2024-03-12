@@ -12,21 +12,21 @@ interface ITaskService
     /**
      * Создание задачи
      *
-     * @param array{title: string} $created_data
+     * @param array{title: string} $createData
      * @return Task
      */
-    public function create(array $created_data);
+    public function create(array $createData);
 
     /**
      * Обновление задачи
      *
      * @param string $uuid
-     * @param array{status: string, title: string} $updated_data
+     * @param array{status: string, title: string} $updateData
      *
-     * @throws NotFoundException
      * @return Task
+     *@throws NotFoundException
      */
-    public function update(string $uuid, array $updated_data);
+    public function update(string $uuid, array $updateData);
 
     /**
      * Удаление задачи

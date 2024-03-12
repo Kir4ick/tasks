@@ -13,11 +13,11 @@ abstract class AbstractQueryFilter implements IQueryFilter
 
     public const MY_RECORDS = 'my';
 
-    public function filter(Builder $query, array $filter_data): Builder
+    public function filter(Builder $query, array $filterData): Builder
     {
         $callbacks = $this->getCallbacks();
 
-        foreach ($filter_data as $key => $value) {
+        foreach ($filterData as $key => $value) {
             $callback = $callbacks[$key] ?? null;
             if ($callback == null) {
                 continue;

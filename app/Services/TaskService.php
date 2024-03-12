@@ -22,21 +22,21 @@ class TaskService implements ITaskService
     /**
      * @inheritDoc
      */
-    public function create(array $created_data)
+    public function create(array $createData)
     {
-        $created_data['created_by'] = Auth::user()->getAuthIdentifier();
+        $createData['created_by'] = Auth::user()->getAuthIdentifier();
 
-        return $this->taskRepository->create($created_data);
+        return $this->taskRepository->create($createData);
     }
 
     /**
      * @inheritDoc
      */
-    public function update(string $uuid, array $updated_data)
+    public function update(string $uuid, array $updateData)
     {
         # Т к нет проверки валидации на то, что хоть одно поле заполнено из нескольких
         # То проверяем здесь на пустоту
-        if (empty($updated_data)) {
+        if (empty($updateData)) {
             throw new BadRequestException('Не было передано данных для обновления');
         }
 
@@ -55,7 +55,7 @@ class TaskService implements ITaskService
             throw new AccessDeniedException();
         }
 
-        return $this->taskRepository->update($updated_task, $updated_data);
+        return $this->taskRepository->update($updated_task, $updateData);
     }
 
     /**
