@@ -29,7 +29,7 @@ class ListRequest extends AbstractApiRequest
             'status' => 'in:create,await,processed,done',
             'created' => 'in:asc,desc',
             'columns' => 'array',
-            'columns.*' => 'string',
+            'columns.*' => 'string|in:id,title,status,created_at,created_by,updated_at',
             'my' => 'boolean'
         ];
     }
