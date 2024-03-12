@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Filters\TaskFilter;
+use App\Models\Task;
 use App\Services\Contracts\ITaskService;
 use App\Exceptions\Api\AccessDeniedException;
 use App\Exceptions\Api\BadRequestException;
 use App\Exceptions\Api\InternalException;
 use App\Exceptions\Api\NotFoundException;
 use App\Repositories\Contracts\ITaskRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Ramsey\Uuid\Uuid;
@@ -22,7 +24,7 @@ class TaskService implements ITaskService
     /**
      * @inheritDoc
      */
-    public function create(array $createData)
+    public function create(array $createData): Task
     {
         return $this->taskRepository->create($createData);
     }
@@ -30,7 +32,7 @@ class TaskService implements ITaskService
     /**
      * @inheritDoc
      */
-    public function update(string $uuid, array $updateData)
+    public function update(string $uuid, array $updateData): Task
     {
         # Т к нет проверки валидации на то, что хоть одно поле заполнено из нескольких
         # То проверяем здесь на пустоту
@@ -53,13 +55,18 @@ class TaskService implements ITaskService
             throw new AccessDeniedException();
         }
 
-        return $this->taskRepository->update($updated_task, $updateData);
+        $result = $this->taskRepository->update($updated_task, $updateData);
+        if ($result == null) {
+            throw new InternalException('Не удалось обновить запись');
+        }
+
+        return $result;
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(string $uuid)
+    public function delete(string $uuid): Task
     {
         if (!Uuid::isValid($uuid)) {
             throw new BadRequestException('UUID неправильного формата');
@@ -86,7 +93,7 @@ class TaskService implements ITaskService
     /**
      * @inheritDoc
      */
-    public function list(array $filterList)
+    public function list(array $filterList): LengthAwarePaginator
     {
         if (isset($filterList[TaskFilter::MY_RECORDS]) && $filterList[TaskFilter::MY_RECORDS]) {
             $filterList[TaskFilter::CREATED_BY] = Auth::user()->getAuthIdentifier();
@@ -98,7 +105,7 @@ class TaskService implements ITaskService
     /**
      * @inheritDoc
      */
-    public function one(string $uuid)
+    public function one(string $uuid): Task
     {
         if (!Uuid::isValid($uuid)) {
             throw new BadRequestException('UUID неправильного формата');

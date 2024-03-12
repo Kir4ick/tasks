@@ -32,9 +32,9 @@ class TaskRepository implements ITaskRepository
 
     public function update(Task $task, array $updatedFields): ?Task
     {
-        $task->update($updatedFields);
+        $result = $task->update($updatedFields);
 
-        return $task;
+        return $result ? $task : null;
     }
 
     public function delete(Task $task): bool
