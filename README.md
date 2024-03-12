@@ -13,11 +13,14 @@ docker-compose -f docker/docker-compose.yml  run  --rm --no-deps --entrypoint=''
 ```shell script
 docker-compose -f docker/docker-compose.yml up -d
 ```
-3. Выполнить миграции и сделать засев бд
+3. Скопировать .env.example в корень с названием .env (также заполнить passphare GhI89ZZ0GhI89ZZ0, а также подключение к бд)
+
+
+4. Выполнить миграции и сделать засев бд
 ```shell script
 docker-compose -f docker/docker-compose.yml  run  --rm --no-deps --entrypoint='' app bash -c "php artisan migrate && php artisan db:seed"
 ```
-4. Всячина для работы с laravel
+5. Всячина для работы с laravel
 ```shell script
 docker-compose -f docker/docker-compose.yml  run  --rm --no-deps --entrypoint='' app bash -c "php artisan key:generate"
 ```
