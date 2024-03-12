@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class AbstractQueryFilter implements IQueryFilter
 {
+    public const LIMIT = 'limit';
+
+    public const PAGE = 'page';
+
+    public const MY_RECORDS = 'my';
+
     public function filter(Builder $query, array $filter_data): Builder
     {
         $callbacks = $this->getCallbacks();
