@@ -34,7 +34,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
 COPY php.ini /usr/local/etc/php/
 # Устанавливаем рабочую директорию
 WORKDIR /var/www/app/
-# RUN chown www:www /var/www/app/backend/runtime
+# RUN chown www:www /var/www/app
 RUN chown -R www:www /var/www/app
 USER www
 CMD ["php-fpm"]

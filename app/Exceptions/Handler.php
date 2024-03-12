@@ -4,9 +4,11 @@ namespace App\Exceptions;
 
 use App\Exceptions\Api\Abstracts\AbstractApiException;
 use App\Exceptions\Api\AccessDeniedException;
+use App\Exceptions\Api\BadRequestException;
 use App\Exceptions\Api\InternalException;
 use App\Exceptions\Api\NotFoundException;
 use App\Exceptions\Api\UnauthorizedException;
+use App\Exceptions\Api\ValidationFailedException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -20,7 +22,9 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         NotFoundException::class,
         AccessDeniedException::class,
-        UnauthorizedException::class
+        UnauthorizedException::class,
+        ValidationFailedException::class,
+        BadRequestException::class
     ];
 
     /**
@@ -55,11 +59,10 @@ class Handler extends ExceptionHandler
             return parent::render($request, $e);
         }
 
-        $exception = $e;
         if (!($e instanceof AbstractApiException)) {
-            $exception = new InternalException();
+            $e = new InternalException();
         }
 
-        return $exception->getResponse();
+        return $e->getResponse();
     }
 }
