@@ -6,14 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * Модель заглушка для авторизации
  *
  * @property string|null $uuid (uuid)
  */
-class User extends Authenticatable implements \Illuminate\Contracts\Auth\Authenticatable
+class User extends Authenticatable implements \Illuminate\Contracts\Auth\Authenticatable, JWTSubject
 {
+    use HasFactory;
+
     private ?string $uuid;
 
     public function setUuid(string $uuid): self
@@ -46,4 +49,14 @@ class User extends Authenticatable implements \Illuminate\Contracts\Auth\Authent
     public function setRememberToken($value) {}
 
     public function getRememberTokenName() {}
+
+    public function getJWTIdentifier()
+    {
+        return $this->uuid;
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

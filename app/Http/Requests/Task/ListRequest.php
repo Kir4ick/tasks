@@ -29,7 +29,8 @@ class ListRequest extends AbstractApiRequest
             'status' => 'in:create,await,processed,done',
             'created' => 'in:asc,desc',
             'columns' => 'array',
-            'columns.*' => 'string'
+            'columns.*' => 'string',
+            'my' => 'boolean'
         ];
     }
 
@@ -46,7 +47,8 @@ class ListRequest extends AbstractApiRequest
             'status.in' => __('Неправильный тип статуса'),
 
             'columns.array' => __('Поле должно быть формата массива'),
-            'columns.*.string' => __('Элементы массива должны быть строчные')
+            'columns.*.string' => __('Элементы массива должны быть строчные'),
+            'my.boolean' => __('Поле должно быть boolean формата')
         ];
     }
 }

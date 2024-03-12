@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Filters\TaskFilter;
 use App\Services\Contracts\ITaskService;
 use App\Exceptions\Api\AccessDeniedException;
 use App\Exceptions\Api\BadRequestException;
@@ -89,6 +90,10 @@ class TaskService implements ITaskService
      */
     public function list(array $filterList)
     {
+        if (isset($filterList[TaskFilter::MY_RECORDS]) && $filterList[TaskFilter::MY_RECORDS]) {
+            $filterList[TaskFilter::CREATED_BY] = Auth::user()->getAuthIdentifier();
+        }
+
         return $this->taskRepository->list($filterList);
     }
 

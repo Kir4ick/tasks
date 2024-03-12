@@ -17,9 +17,7 @@ class TaskFilter extends AbstractQueryFilter
 
     public const TITLE_FIELD = 'title';
 
-    public const LIMIT = 'limit';
-
-    public const PAGE = 'page';
+    public const CREATED_BY = 'created_by';
 
     public function getCallbacks(): array
     {
@@ -27,7 +25,8 @@ class TaskFilter extends AbstractQueryFilter
             self::STATUS_FIELD => [$this, 'searchByStatus'],
             self::CREATED_AT => [$this, 'sortByCreatedAt'],
             self::UPDATED_AT => [$this, 'sortByUpdatedAt'],
-            self::TITLE_FIELD => [$this, 'searchByTitle']
+            self::TITLE_FIELD => [$this, 'searchByTitle'],
+            self::CREATED_BY => [$this, 'searchCreatedBy']
         ];
     }
 
@@ -49,5 +48,10 @@ class TaskFilter extends AbstractQueryFilter
     public function searchByTitle(Builder $query, $value): Builder
     {
         return $query->where('title', 'LIKE', $value);
+    }
+
+    public function searchCreatedBy(Builder $query, $value): Builder
+    {
+        return $query->where('created_by', '=', $value);
     }
 }

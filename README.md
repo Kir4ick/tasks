@@ -13,3 +13,28 @@ docker-compose -f docker/docker-compose.yml  run  --rm --no-deps --entrypoint=''
 ```shell script
 docker-compose -f docker/docker-compose.yml up -d
 ```
+3. Выполнить миграции и сделать засев бд
+```shell script
+docker-compose -f docker/docker-compose.yml  run  --rm --no-deps --entrypoint='' app bash -c "php artisan migrate && php artisan db:seed"
+```
+4. Всячина для работы с laravel
+```shell script
+docker-compose -f docker/docker-compose.yml  run  --rm --no-deps --entrypoint='' app bash -c "php artisan key:generate"
+```
+_____
+
+Документация Swagger находится по ссылке:
+---------------
+{host}/api/documentation
+
+P.S. 
+---------------
+---------------
+
+Также для всех запросов нужен JWT токен, в .env есть все данные для составления его в jwt.io
+
+Да я понимаю, что хранить ключи для jwt так просто как здесь, 
+нельзя, но это просто тестовое же.
+
+Также насчет доекрфайла, да у laravel 9 есть sail, 
+но я чет не нашел как именно 9 с ним скачать
