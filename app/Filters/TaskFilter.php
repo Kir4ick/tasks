@@ -47,7 +47,7 @@ class TaskFilter extends AbstractQueryFilter
 
     public function searchByTitle(Builder $query, $value): Builder
     {
-        return $query->where('title', 'LIKE', $value);
+        return $query->where('title', 'LIKE', '%'.$value.'%');
     }
 
     public function searchCreatedBy(Builder $query, $value): Builder
