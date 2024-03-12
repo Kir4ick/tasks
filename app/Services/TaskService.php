@@ -24,8 +24,6 @@ class TaskService implements ITaskService
      */
     public function create(array $createData)
     {
-        $createData['created_by'] = Auth::user()->getAuthIdentifier();
-
         return $this->taskRepository->create($createData);
     }
 

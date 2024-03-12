@@ -20,6 +20,6 @@ class Task extends Model
 {
     use HasUuids, HasFactory, Filterable;
 
-    protected $fillable = ['title', 'created_by', 'status'];
+    protected $fillable = ['title', 'status'];
 
 }
